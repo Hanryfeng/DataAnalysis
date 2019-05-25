@@ -220,6 +220,51 @@ data['day'] = data['date'].apply(lambda date: date.day)
 ## 探索泰坦尼克灾难数据
 <br/>
 
+### 步骤5 绘制一个展示男女乘客比例的扇形图
+思路：
+1. 扇形图需要的第一个参数是数据集每个子集总数组成的数组，所以需要先计算各个子集的总数。
+```py
+males = (titanic['Sex'] == 'male').sum()
+females = (titanic['Sex'] == 'female').sum()
+proportions = [males, females]
+```
+2. **绘制**扇形图。传入的第一个参数是上一步所计算的数组`proportions`，第二个参数`labels`对应数据集每个子集的标签，第三个参数`shadow`设置扇形图是否有阴影效果（显得更立体），第四个参数`colors`设置每个子集扇形块对应的颜色，第五个参数`explode`设置扇形图每个扇形块与其他块分离开的大小（记得是使用小括号），第六个参数`startangle`代表扇形图的起始角度，第七个参数`autopct`自动在每个扇形块上标注百分比以及设置百分比显示的格式。
+```py
+plt.pie(
+    # using proportions
+    proportions,
+    # with the labels being officer names
+    labels = ['Males', 'Females'],
+    # with no shadows
+    shadow = False,
+    # with colors
+    colors = ['blue','red'],
+    # with one slide exploded out
+    explode = (0.15 , 0),
+    # with the start angle at 90%
+    startangle = 90,
+    # with the percent listed as a fraction
+    autopct = '%1.1f%%'
+    )
+  ```
+<br/>
+
+### 步骤6 绘制一个展示船票```Fare```, 与乘客年龄和性别的散点图
+答案方法：`lm = sns.lmplot(x = 'Age', y = 'Fare', data = titanic,
+hue = 'Sex', fit_reg=False)`
+答案使用了`seaborn`的`lmplot`，这是一种集合基础绘图与基于数据建立回归模型的绘图方法。设置了`fit_reg=False`就是普通的散点图，不进行回归分析。
+
+我的方法（普通散点图）：`sns.scatterplot(x='Age',y='Fare',data=titanic,hue='Sex')`
+我的方法只能绘制普通的散点图，参数`hue`定义数据子集的变量。
+<br/>
+
+### 步骤8 绘制一个展示船票价格的直方图
+绘制频率分布直方图方法：
+`binsVal = np.arange(0,600,10)`
+`plt.hist(df, bins = binsVal)`
+这里有一个关键的参数是`bins`，作用是设置连续的边界值（确定直方图x轴上每一条柱的边界），即直方图的分布区间[0,10]，[10,20]。。。
+<br/>
+
 # 练习8-创建数据框
 <br/>
 
